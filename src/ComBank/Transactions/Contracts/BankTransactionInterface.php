@@ -15,19 +15,5 @@ use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
 
 interface BankTransactionInterface
 {
-    public function transaction(BankTransactionInterface $account): void;
 
-    public function openAccount():bool;
-
-    public function reopenAccount():bool;
-
-    public function closeAccount():bool;
-
-    public function getBalance():float;
-
-    public function getOverdraft():OverdraftInterface;
-
-    public function applyOverdraft(OverdraftInterface $overdraft): void;
-
-    public function setBalance(float $balance): void;
 }
