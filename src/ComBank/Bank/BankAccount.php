@@ -1,4 +1,6 @@
-<?php namespace ComBank\Bank;
+<?php
+
+namespace ComBank\Bank;
 
 /**
  * Created by VS Code.
@@ -18,6 +20,6 @@ use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
 use ComBank\Support\Traits\AmountValidationTrait;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 
-class BankAccount
-{
-    }
+class BankAccount implements BankTransactionInterface {
+    
+}
