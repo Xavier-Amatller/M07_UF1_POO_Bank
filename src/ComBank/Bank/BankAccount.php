@@ -20,48 +20,75 @@ use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
 use ComBank\Support\Traits\AmountValidationTrait;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 
-class BankAccount implements BackAccountInterface {
-    
-    private $balance;
+class BankAccount implements BackAccountInterface
+{
 
-    private $amount;
+    private  $balance;
 
-    private $overdraft;
+    private  $status;
 
-    public function transaction(BankTransactionInterface $account): void{
+    private  $overdraft;
 
+    function __construct($balance = 100, $status = 'active', $overdraft = null)
+    {
+        $this->balance = $balance;
+        $this->status = $status;
+        $this->overdraft = $overdraft;
     }
 
-    public function openAccount():bool{
-
-        return false;
+    public function transaction(BankTransactionInterface $transaction): void
+    {
+        $transaction->applyTransaction($this);
     }
 
-    public function reopenAccount():bool{
-        return false;
-
+    public function openAccount(): bool
+    {
+        return $this->status = true;
     }
 
-    public function closeAccount():bool{
-        return false;
-
+    public function reopenAccount(): bool
+    {
+        if ($this->status) {
+            return false; //Aqui tiene que devolver una excepcion
+        } else {
+            return $this->status = true;
+        }
     }
 
-    public function getBalance():float{
+    public function closeAccount(): bool
+    {
+        return $this->status = false;
+    }
+
+    public function getBalance(): float
+    {
         return $this->balance;
-
     }
 
-    public function getOverdraft():OverdraftInterface{
+    public function getOverdraft(): OverdraftInterface
+    {
         return $this->overdraft;
     }
 
-    public function applyOverdraft(OverdraftInterface $overdraft): void{
+    public function applyOverdraft(OverdraftInterface $overdraft): void {}
 
+    public function setBalance(float $balance): void
+    {
+        $this->balance = $balance;
     }
 
-    public function setBalance(float $balance): void{
 
+    /**
+     * Get the value of status
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
+    /**
+     * Set the value of status
+     *
+     * @return  self
+     */
 }

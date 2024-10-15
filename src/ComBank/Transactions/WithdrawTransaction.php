@@ -1,4 +1,6 @@
-<?php namespace ComBank\Transactions;
+<?php
+
+namespace ComBank\Transactions;
 
 /**
  * Created by VS Code.
@@ -11,8 +13,25 @@ use ComBank\Bank\Contracts\BackAccountInterface;
 use ComBank\Exceptions\InvalidOverdraftFundsException;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 
-class WithdrawTransaction 
+class WithdrawTransaction extends BaseTransaction
 {
 
-   
+    public function __construct($amount)
+    {
+        $this->amount = $amount;
+    }
+    public function applyTransaction(BackAccountInterface $account): float
+    {
+        return 10;
+    }
+
+    public function getTransaction(): string
+    {
+        return "";
+    }
+
+    public function getAmount(): float
+    {
+        return 10;
+    }
 }
