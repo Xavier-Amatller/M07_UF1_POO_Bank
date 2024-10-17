@@ -21,9 +21,9 @@ interface BackAccountInterface
 
     public function openAccount():bool;
 
-    public function reopenAccount():bool;
+    public function reopenAccount():void;
 
-    public function closeAccount():bool;
+    public function closeAccount():void;
 
     public function getBalance():float;
 

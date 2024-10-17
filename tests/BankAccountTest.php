@@ -46,7 +46,9 @@ class BankAccountTest extends TestCase
     public function testCanCloseAndReopenAccount(): void
     {
         $account = new BankAccount(100.0);
+        
         $account->closeAccount();
+
         $this->assertFalse($account->openAccount());
 
         $account->reopenAccount();
@@ -69,7 +71,7 @@ class BankAccountTest extends TestCase
         $this->expectException(FailedTransactionException::class);        
 
         $bankAccount = new BankAccount(100.0);
-        $bankAccount->applyOverdraft(new SilverOverdraft());        
+        $bankAccount->applyOverdraft(new SilverOverdraft());
         $bankAccount->transaction(new WithdrawTransaction(201.0));// should fail
     }
 

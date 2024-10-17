@@ -16,11 +16,14 @@ class DepositTransaction extends BaseTransaction implements BankTransactionInter
 {
     public function __construct($amount)
     {
+        parent::validateAmount($amount);
+
         $this->amount = $amount;
     }
 
     public function applyTransaction(BackAccountInterface $account): float
     {
+
         $newBalance = $account->getBalance() + $this->getAmount();
 
         $account->setBalance($newBalance);
@@ -30,11 +33,12 @@ class DepositTransaction extends BaseTransaction implements BankTransactionInter
 
     public function getTransaction(): string
     {
-        return "";
+        return "DEPOSIT_TRANSACTION";
     }
 
     public function getAmount(): float
     {
         return $this->amount;
     }
+    
 }
