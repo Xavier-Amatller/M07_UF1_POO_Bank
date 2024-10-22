@@ -11,7 +11,7 @@ use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
 /**
  * @description: Grant 100.00 overdraft funds.
  * */
-class SilverOverdraft implements OverdraftInterface
+class GoldOverdraft implements OverdraftInterface
 {
     public function isGrantOverdraftFunds(float $amount): bool
     {
@@ -20,10 +20,10 @@ class SilverOverdraft implements OverdraftInterface
 
     public function getOverdraftFundsAmount(): float
     {
-        return -100.00;
+        return -500.00;
     }
 
     public function getInterestAmount(): float{
-        return 2.0;
+        return 1.0;
     }
 }

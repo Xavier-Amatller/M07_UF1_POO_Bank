@@ -10,17 +10,12 @@ namespace ComBank\Bank;
  */
 
 use ComBank\Exceptions\BankAccountException;
-use ComBank\Exceptions\InvalidArgsException;
-use ComBank\Exceptions\ZeroAmountException;
 use ComBank\OverdraftStrategy\NoOverdraft;
 use ComBank\Bank\Contracts\BackAccountInterface;
-use ComBank\Exceptions\FailedTransactionException;
-use ComBank\Exceptions\InvalidOverdraftFundsException;
 use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
 use ComBank\Support\Traits\AmountValidationTrait;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
-use Exception;
-
+use ComBank\History\TransactionHistory;
 class BankAccount implements BackAccountInterface
 {
     use AmountValidationTrait;
@@ -31,22 +26,27 @@ class BankAccount implements BackAccountInterface
 
     private  $overdraft;
 
+    private TransactionHistory $transactionHistory;
+
     function __construct(float $balance = 100)
     {
         $this->validateAmount($balance);
-        
+
         $this->balance = $balance;
         $this->status = true;
         $this->overdraft =  new NoOverdraft();
+
+        $this->transactionHistory = new TransactionHistory();
     }
 
     public function transaction(BankTransactionInterface $transaction): void
     {
         if (!isset($this->status) || !$this->status) throw new BankAccountException("La cuenta no esta abierta");
+        $this->getTransactionHistory()->addTransaction($transaction);
         $transaction->applyTransaction($this);
     }
 
-    public function openAccount():bool
+    public function openAccount(): bool
     {
         if (!isset($this->status)) $this->status = true;
 
@@ -79,7 +79,8 @@ class BankAccount implements BackAccountInterface
         return $this->overdraft;
     }
 
-    public function applyOverdraft(OverdraftInterface $overdraft): void {
+    public function applyOverdraft(OverdraftInterface $overdraft): void
+    {
         $this->overdraft = $overdraft;
     }
 
@@ -88,18 +89,21 @@ class BankAccount implements BackAccountInterface
         $this->balance = $balance;
     }
 
-
-    /**
-     * Get the value of status
-     */
-    public function getStatus()
+    public function getExtraInterestAmount(): float
     {
-        return $this->status;
+        return 10.0;
+    }
+
+    public function setExtraInterestAmount(): float {
+        return 10.0;
     }
 
     /**
-     * Set the value of status
-     *
-     * @return  self
-     */
+     * Get the value of transactionHistory
+     */ 
+    public function getTransactionHistory(): TransactionHistory
+    {
+        return $this->transactionHistory;
+    }
+
 }

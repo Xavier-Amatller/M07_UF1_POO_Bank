@@ -50,6 +50,9 @@ try {
     // withdrawal -600
     pl('Doing transaction withdrawal (-600) with current balance ' . $bankAccount1->getBalance());
     $bankAccount1->transaction(new WithdrawTransaction(600));
+
+
+
 } catch (ZeroAmountException $e) {
     pl($e->getMessage());
 } catch (BankAccountException $e) {
@@ -63,7 +66,9 @@ try {
     pl('Error transaction: ' . $e->getMessage());
 }
 
-
+// foreach ($bankAccount1->getTransactionHistory() as $transaction) {
+//     echo $transaction . "\n";
+// }
 
 
 //---[Bank account 2]---/

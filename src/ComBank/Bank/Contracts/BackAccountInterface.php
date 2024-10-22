@@ -11,7 +11,7 @@ use ComBank\Exceptions\BankAccountException;
 use ComBank\Exceptions\FailedTransactionException;
 use ComBank\OverdraftStrategy\Contracts\OverdraftInterface;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
-
+use ComBank\History\TransactionHistory;
 interface BackAccountInterface
 {
     const STATUS_OPEN = 'OPEN';
@@ -32,4 +32,8 @@ interface BackAccountInterface
     public function applyOverdraft(OverdraftInterface $overdraft): void;
 
     public function setBalance(float $balance): void;
+
+    public function getExtraInterestAmount():float;
+
+    public function getTransactionHistory(): TransactionHistory;
 }

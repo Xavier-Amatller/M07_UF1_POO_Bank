@@ -23,4 +23,9 @@ class NoOverdraft implements OverdraftInterface
     {
         return 0;
     }
+
+    public function getInterestAmount(): float
+    {
+        return 0;
+    }
 }
