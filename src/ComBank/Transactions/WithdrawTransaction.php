@@ -31,12 +31,18 @@ class WithdrawTransaction extends BaseTransaction implements BankTransactionInte
 
         $newBalance = $account->getBalance() - $this->getAmount();
 
+
         if ($newBalance < 0) {
+
+
+
             if ($account->getOverdraft()->getOverdraftFundsAmount() == 0) {
-                throw new InvalidOverdraftFundsException("No puedes retirar esta cantidad de dinero, tu limite es 0");
+                throw new InvalidOverdraftFundsException("No puedes retirar esta cantidad de dinero, tu limite es  0 ");
             } else {
+                $interestToApply = $newBalance * $account->getOverdraft()->getInterestAmount();
+                $newBalance =  $newBalance + $interestToApply;
                 if (!$account->getOverdraft()->isGrantOverdraftFunds(($newBalance)))
-                    throw new FailedTransactionException("No puedes retirar esta cantidad de dinero, tu limite es -100");
+                    throw new FailedTransactionException("No puedes retirar esta cantidad de dinero, tu limite es " . $account->getOverdraft()->getOverdraftFundsAmount());
             }
         }
         $account->setBalance($newBalance);

@@ -15,6 +15,7 @@ use ComBank\Exceptions\BankAccountException;
 use ComBank\Exceptions\FailedTransactionException;
 use ComBank\Exceptions\InvalidOverdraftFundsException;
 use ComBank\Exceptions\ZeroAmountException;
+use ComBank\OverdraftStrategy\GoldOverdraft;
 use ComBank\OverdraftStrategy\NoOverdraft;
 
 require_once 'bootstrap.php';
@@ -50,9 +51,6 @@ try {
     // withdrawal -600
     pl('Doing transaction withdrawal (-600) with current balance ' . $bankAccount1->getBalance());
     $bankAccount1->transaction(new WithdrawTransaction(600));
-
-
-
 } catch (ZeroAmountException $e) {
     pl($e->getMessage());
 } catch (BankAccountException $e) {
@@ -66,9 +64,8 @@ try {
     pl('Error transaction: ' . $e->getMessage());
 }
 
-// foreach ($bankAccount1->getTransactionHistory() as $transaction) {
-//     echo $transaction . "\n";
-// }
+showTransactionHistory($bankAccount1);
+
 
 
 //---[Bank account 2]---/
@@ -118,4 +115,18 @@ try {
     pl('My balance after failed last transaction : ' . $bankAccount2->getBalance());
 } catch (ZeroAmountException $e) {
     pl('' . $e->getMessage());
+}
+
+showTransactionHistory($bankAccount2);
+
+
+function showTransactionHistory($bankAccount)
+{
+    pl("******TRANSACTION HISTORY******");
+    foreach ($bankAccount->getTransactionHistory()->getTransactions() as $transaction) {
+        pl("Type : " . $transaction["type"]);
+        pl("Amount : " . $transaction["amount"]);
+        pl("DateTime : " . $transaction["dateTime"] . "<br>");
+    }
+    pl("******************************");
 }

@@ -24,6 +24,6 @@ class SilverOverdraft implements OverdraftInterface
     }
 
     public function getInterestAmount(): float{
-        return 2.0;
+        return 0.02;
     }
 }

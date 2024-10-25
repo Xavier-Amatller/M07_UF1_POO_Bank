@@ -24,6 +24,6 @@ class GoldOverdraft implements OverdraftInterface
     }
 
     public function getInterestAmount(): float{
-        return 1.0;
+        return 0.01;
     }
 }

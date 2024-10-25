@@ -11,20 +11,28 @@ use ComBank\Transactions\Contracts\BankTransactionInterface;
  * Time: 18:51 PM
  */
 
- class TransactionHistory{
+class TransactionHistory
+{
 
     private $transactions = [];
 
-    public function addTransaction(BankTransactionInterface $transaction){
-        
+    public function addTransaction(BankTransactionInterface $transaction)
+    {
+
         $transactionTipe = $transaction->getTransaction();
         $transactionAmount = $transaction->getAmount();
-        
-        $this->transactions = [$transactionTipe, $transactionAmount, new \DateTime()];
+
+        $date = new \DateTime();
+
+        array_push($this->transactions, [
+            "type" => $transactionTipe,
+            "amount" => $transactionAmount,
+            "dateTime" => $date->format('Y-m-d H:i:s')
+        ]);
     }
 
-    public function getTransactions(): array{
+    public function getTransactions(): array
+    {
         return $this->transactions;
     }
-    
- }
+}

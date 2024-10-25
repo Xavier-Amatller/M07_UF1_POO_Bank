@@ -24,6 +24,6 @@ class BasicOverdraft implements OverdraftInterface
     }
 
     public function getInterestAmount(): float{
-        return 5.0;
+        return 0.05;
     }
 }
