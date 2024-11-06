@@ -8,6 +8,8 @@
  */
 
 use ComBank\Bank\BankAccount;
+use ComBank\Bank\NationalBankAccount;
+use ComBank\Bank\InternationalBankAccount;
 use ComBank\OverdraftStrategy\SilverOverdraft;
 use ComBank\Transactions\DepositTransaction;
 use ComBank\Transactions\WithdrawTransaction;
@@ -15,7 +17,6 @@ use ComBank\Exceptions\BankAccountException;
 use ComBank\Exceptions\FailedTransactionException;
 use ComBank\Exceptions\InvalidOverdraftFundsException;
 use ComBank\Exceptions\ZeroAmountException;
-use ComBank\OverdraftStrategy\NoOverdraft;
 
 require_once 'bootstrap.php';
 
@@ -26,6 +27,7 @@ pl('--------- [Start testing bank account #1, No overdraft] --------');
 try {
 
     $bankAccount1 = new BankAccount(400);
+    
     // show balance account
     pl('My Balance: ' . $bankAccount1->getBalance());
 
